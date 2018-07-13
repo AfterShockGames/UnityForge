@@ -15,8 +15,6 @@ namespace Tests
         {
             GameObject forgeryInit = new GameObject("ForgeryInit");
             forgeryInit.AddComponent<TestInitalize>();
-
-            Debug.Log(forgeryInit);
         }
     }
 }

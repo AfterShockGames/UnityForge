@@ -25,8 +25,12 @@ namespace Tests {
         [UnityTest]
         public IEnumerator ForgeryCreateRegistryTest()
         {
-            //Register.GetRegister.CreateRegistry<>();
+            Register.GetRegister.CreateRegistry<ITestObject>(TestSettings.TEST_REGISTRY);
             yield return null;
+
+            IRegistry testRegistry = Register.GetRegister.GetRegistry(TestSettings.TEST_REGISTRY);
+
+            Assert.NotNull(testRegistry);
         }
     }
 }
