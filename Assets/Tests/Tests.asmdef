@@ -1,0 +1,12 @@
+{
+    "name": "Tests",
+    "references": [
+        "Forgery"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
