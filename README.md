@@ -1,2 +1,2 @@
-# Forgery
-Forgery a Unity modding framework
+# Forge
+Forge a Unity modding framework
