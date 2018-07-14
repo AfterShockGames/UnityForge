@@ -1,7 +1,7 @@
 {
     "name": "Tests",
     "references": [
-        "Forgery"
+        "Forge"
     ],
     "optionalUnityReferences": [
         "TestAssemblies"

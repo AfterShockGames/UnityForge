@@ -8,13 +8,13 @@ namespace Tests
     public class Setup
     {
         /// <summary>
-        ///     Create and Setup the Forgery objects
+        ///     Create and Setup the Forge objects
         /// </summary>
         [OneTimeSetUp]
-        public void SetupForgery()
+        public void SetupForge()
         {
-            GameObject forgeryInit = new GameObject("ForgeryInit");
-            forgeryInit.AddComponent<TestInitalize>();
+            GameObject ForgeInit = new GameObject("ForgeInit");
+            ForgeInit.AddComponent<TestInitalize>();
         }
     }
 }

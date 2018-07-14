@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Forgery;
+using Forge;
 
 namespace Tests.Data
 {
 
-    public class TestInitalize : ForgeryInitializer
+    public class TestInitalize : ForgeInitializer
     {
         public override void BeforeModLoading()
         {
