@@ -31,6 +31,7 @@ namespace Tests {
             IRegistry testRegistry = Register.GetRegister.GetRegistry(TestSettings.TEST_REGISTRY);
 
             Assert.NotNull(testRegistry);
+            
         }
     }
 }
