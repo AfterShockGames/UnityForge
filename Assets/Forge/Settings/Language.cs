@@ -52,5 +52,16 @@ namespace Forge.Settings
         [ConfigItem("Mod PostInit fired for mod:")]
         public static string ForgeModPostInitFired { get; set; }
         #endregion
+
+        #region EditorLanguage
+        [ConfigItem("Forge")]
+        public static string ForgeTopMenuItemName { get; set; }
+        [ConfigItem("Manage Forge Asset Bundles")]
+        public static string ForgeAssetBundleManagerMenuItemName { get; set; }
+        [ConfigItem("Forge Asset Bundles")]
+        public static string ForgeAssetBundleManagerWindowName { get; set; }
+        [ConfigItem("Build")]
+        public static string ForgeAssetBundleManagerBuildBundle { get; set; }
+        #endregion
     }
 }

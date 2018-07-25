@@ -25,10 +25,9 @@ namespace Forge.Config
         {
             Name = name;
 
-            string result = CodeIdentifier((ConfigCode)defaultValue);
-
-            if(result != null)
+            if(DefaultValue is ConfigCode)
             {
+                string result = CodeIdentifier((ConfigCode)defaultValue);
                 DefaultValue = result;
             }
             else
@@ -37,6 +36,11 @@ namespace Forge.Config
             }
         }
 
+        /// <summary>
+        ///     Identifies the code and parses it to a runtime value
+        /// </summary>
+        /// <param name="code">The code to parse</param>
+        /// <returns>The code value to return</returns>
         private string CodeIdentifier(ConfigCode code)
         {
             switch (code)

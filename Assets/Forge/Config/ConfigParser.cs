@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using UnityEngine;
 using Forge.Errors;
 using Forge.Settings;
 
@@ -28,6 +29,14 @@ namespace Forge.Config
 
         private readonly DirectoryInfo _gameDirectory;
 
+        /// <summary>
+        ///     Creates and parses the config
+        /// </summary>
+        /// <returns>The created configParser... useless</returns>
+        public static ConfigParser InitializeConfigParser()
+        {
+            return new ConfigParser(Application.productName);
+        }
 
         /// <summary>
         ///     Starts the config Parser
@@ -36,7 +45,7 @@ namespace Forge.Config
         public ConfigParser(string configFolder)
         {
             //Gets the specified folder starting from the MyDocuments folder.
-            string directory = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), InternalData.GAMES_DIR), configFolder);
+            string directory = Path.Combine(InternalData.GamePath, configFolder);
 
             //Create the games directory if it doesn't exist
             if (!Directory.Exists(directory))

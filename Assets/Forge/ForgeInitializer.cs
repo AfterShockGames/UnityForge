@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Reflection;
 using Forge.Settings;
+using Forge.Config;
 using Forge.Anvil;
 using Forge.Anvil.Registry;
 
@@ -19,6 +20,8 @@ namespace Forge
         public void Start()
         {
             DontDestroyOnLoad(gameObject);
+
+            ConfigParser.InitializeConfigParser();
 
             InitForge();
             BeforeModLoading();

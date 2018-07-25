@@ -1,4 +1,6 @@
 using System.Reflection;
+using System.IO;
+using System;
 
 namespace Forge.Settings
 {
@@ -25,6 +27,8 @@ namespace Forge.Settings
         #region ForgeConfig
         public const string GAMES_DIR = "My Games";
         public const string CONFIG_DIR = "Config";
+        public const string ASSET_BUNDLES_DIR = "AssetBundles";
+        public static string GamePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), GAMES_DIR);
         #endregion
 
         #region Hammer
