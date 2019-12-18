@@ -10,12 +10,6 @@ namespace Forge.Anvil
     public abstract class ModBase : MonoBehaviour, IModBase
     {
         /// <summary>
-        ///     Useful for attaching prefabs to your mod
-        /// </summary>
-        [SerializeField]
-        public GameObject ModObject;
-        
-        /// <summary>
         ///     Public accessor for the private assetDictionary. 
         ///     This contains all loaded assets for this mod.
         /// </summary>

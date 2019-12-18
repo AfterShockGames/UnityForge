@@ -68,8 +68,9 @@ namespace Forge.Anvil
                     ModClass = mod
                 };
                 
-                Logging.Info(Language.ForgeModRegistered  + GenericHelpers.GetAttribute<Mod>(mod.GetType()).ModId);
+                Logging.Info(Language.ForgeModRegistered + GenericHelpers.GetAttribute<Mod>(mod.GetType()).ModId);
                 
+                mod.transform.SetParent(transform.parent);
                 _registeredMods.Add(GenericHelpers.GetAttribute<Mod>(mod.GetType()).ModId, info);
             }
             
