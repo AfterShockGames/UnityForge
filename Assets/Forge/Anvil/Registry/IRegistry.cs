@@ -11,13 +11,13 @@ namespace Forge.Anvil.Registry
         /// <summary>
         ///     Spawns a new instance from the pooling manager and gets the component specified
         /// </summary>
-        /// <typeparam name="T">The component to get</typeparam>
+        /// <typeparam name="T1">The component to get</typeparam>
         /// <param name="id">The Item ID</param>
         /// <returns>The resulting MonoBehaviour</returns>
-        T GetItem<T>(string id);
+        T1 GetItem<T1>(string id);
 
         /// <summary>
-        ///     Spawns a new isntance from the pooling manager and returns the object
+        ///     Spawns a new instance from the pooling manager and returns the object
         /// </summary>
         /// <param name="id">The Item ID</param>
         /// <returns></returns>
@@ -33,24 +33,24 @@ namespace Forge.Anvil.Registry
 
         /// <summary>
         ///     Registers an item with the specified Registry ID.
-        ///     If the item is a GameObject there will be a pool created for it.
+        ///     If amount is specified there will be an item pool created
         /// </summary>
         /// <param name="id">Registry ID</param>
         /// <param name="item">Item, This should inherit from MonoBehaviour</param>
         /// <param name="amount">
         ///     The amount of items the PoolingManager should create in advance.
-        ///     Set this to 0 if you want to create objects on demand
+        ///     This is disabled by default
         /// </param>
         /// <returns>Succes</returns>
-        bool Register(string id, object item, int amount = 5);
+        bool Register(string id, object item, int amount = 0);
 
         /// <summary>
         ///     Registers a type to the registry
         /// </summary>
-        /// <typeparam name="T">The type to register</typeparam>
+        /// <typeparam name="T2">The type to register</typeparam>
         /// <param name="id">The item identifier</param>
         /// <returns>Success</returns>
-        bool RegisterType<T>(string id);
+        bool RegisterType<T2>(string id);
 
         /// <summary>
         ///     Deletes a registry item by the Registry ID specified

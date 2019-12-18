@@ -41,8 +41,7 @@ namespace Forge
 
                     GameObject gameObject = bundle.LoadAsset<GameObject>(assetNames);
 
-                    modInfo.ModClassType.GetMethod("AddGameObject")
-                        .Invoke(modInfo.ModClass, new object[] { gameObject.name, gameObject });
+                    modInfo.ModClass.AddGameObject(gameObject.name, gameObject);
                 }
             }
         }

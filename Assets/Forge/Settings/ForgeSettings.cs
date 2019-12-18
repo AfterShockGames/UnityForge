@@ -20,7 +20,7 @@ namespace Forge.Settings
         [ConfigItem("Warning.log")]
         public static string WarningLogFile { get; set; }
 
-        [ConfigItem("/Logs")]
+        [ConfigItem("Logs")]
         public static string LogDirectory { get; set; }
     }
 }

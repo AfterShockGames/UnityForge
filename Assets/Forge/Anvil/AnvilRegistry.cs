@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Forge.Errors;
 using Forge.Settings;
@@ -58,8 +59,27 @@ namespace Forge.Anvil
         /// </summary>
         public void GetMods()
         {
+            ModBase[] mods = FindObjectsOfType<ModBase>();
+            
+            foreach (ModBase mod in mods)
+            {
+                ModInfo info = new ModInfo
+                {
+                    ModClass = mod
+                };
+                
+                Logging.Info(Language.ForgeModRegistered  + GenericHelpers.GetAttribute<Mod>(mod.GetType()).ModId);
+                
+                _registeredMods.Add(GenericHelpers.GetAttribute<Mod>(mod.GetType()).ModId, info);
+            }
+            
             foreach (Type type in GenericHelpers.GetTypesWithAttribute(typeof(Mod), null))
             {
+                if (mods.Any(m => type.Name == m.GetType().Name))
+                {
+                    continue;
+                }
+                
                 ModInfo info = TypeToModInfo(type);
 
                 Logging.Info(Language.ForgeModRegistered  + GenericHelpers.GetAttribute<Mod>(type).ModId);
@@ -102,11 +122,7 @@ namespace Forge.Anvil
 
             ModInfo info = new ModInfo
             {
-                ModClass = modObject.AddComponent(type),
-                PreInit = type.GetMethod(InternalData.PRE_INIT),
-                Load = type.GetMethod(InternalData.LOAD),
-                PostInit = type.GetMethod(InternalData.POST_INIT),
-                ModClassType = type
+                ModClass = modObject.AddComponent(type) as ModBase,
             };
 
             modObject.transform.SetParent(transform.parent);
@@ -122,16 +138,16 @@ namespace Forge.Anvil
         {
             foreach (KeyValuePair<string, ModInfo> info in _registeredMods)
             {
-                if (info.Value.PreInit == null || info.Value.PreInitDone)
+                if (info.Value.PreInitDone)
                 {
                     continue;
                 }
 
-                info.Value.PreInitDone = true;
-
                 Logging.Info(Language.ForgeModPreInitFired + info.Key);
 
-                info.Value.PreInit.Invoke(info.Value.ModClass, new object[] { });
+                info.Value.ModClass.PreInit();
+                
+                info.Value.PreInitDone = true;
             }
         }
 
@@ -143,15 +159,16 @@ namespace Forge.Anvil
         {
             foreach (KeyValuePair<string, ModInfo> info in _registeredMods)
             {
-                if (info.Value.PreInit == null || info.Value.LoadDone)
+                if (info.Value.LoadDone)
                 {
                     continue;
                 }
 
                 Logging.Info(Language.ForgeModLoadFired + info.Key);
-
+                
+                info.Value.ModClass.Load();
+                
                 info.Value.LoadDone = true;
-                info.Value.Load.Invoke(info.Value.ModClass, new object[] { });
             }
         }
 
@@ -163,15 +180,16 @@ namespace Forge.Anvil
         {
             foreach (KeyValuePair<string, ModInfo> info in _registeredMods)
             {
-                if (info.Value.PreInit == null || info.Value.PostInitDone)
+                if (info.Value.PostInitDone)
                 {
                     continue;
                 }
 
                 Logging.Info(Language.ForgeModPostInitFired + info.Key);
-
+                
+                info.Value.ModClass.PostInit();
+                
                 info.Value.PostInitDone = true;
-                info.Value.PostInit.Invoke(info.Value.ModClass, new object[] { });
             }
         }
     }

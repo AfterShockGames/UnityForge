@@ -25,7 +25,7 @@ namespace Tests {
         [UnityTest]
         public IEnumerator ForgeCreateRegistryTest()
         {
-            Register.GetRegister.CreateRegistry<ITestObject>(TestSettings.TEST_REGISTRY);
+            Register.GetRegister.CreateRegistry<MonoBehaviour>(TestSettings.TEST_REGISTRY);
             yield return null;
 
             IRegistry testRegistry = Register.GetRegister.GetRegistry(TestSettings.TEST_REGISTRY);

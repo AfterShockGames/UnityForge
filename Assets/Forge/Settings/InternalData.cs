@@ -18,8 +18,8 @@ namespace Forge.Settings
 
         #region ForgeRegistry
 
-        public const string Forge_COMPONENT_REGISTRY = "Forge_COMPONENT_REGISTRY";
-        public const string Forge_REGISTRY = "Forge_REGISTRY";
+        public const string FORGE_COMPONENT_REGISTRY = "FORGE_COMPONENT_REGISTRY";
+        public const string FORGE_REGISTRY = "FORGE_REGISTRY";
         public const string ANVIL_REGISTER = "AnvilRegister";
 
         #endregion

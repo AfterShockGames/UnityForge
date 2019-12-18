@@ -7,8 +7,14 @@ namespace Forge.Anvil
     ///     Base class for mods.
     ///     This class is a helper which contains usefull functions for mods.
     /// </summary>
-    public class ModBase : MonoBehaviour
+    public abstract class ModBase : MonoBehaviour, IModBase
     {
+        /// <summary>
+        ///     Useful for attaching prefabs to your mod
+        /// </summary>
+        [SerializeField]
+        public GameObject ModObject;
+        
         /// <summary>
         ///     Public accessor for the private assetDictionary. 
         ///     This contains all loaded assets for this mod.
@@ -42,5 +48,9 @@ namespace Forge.Anvil
         {
             AssetsDictionary.Add(gameObjectName, addGameObject);
         }
+
+        public abstract void PreInit();
+        public abstract void Load();
+        public abstract void PostInit();
     }
 }

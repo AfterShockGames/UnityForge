@@ -18,7 +18,7 @@ namespace Forge.Anvil.Registry
         {
             get
             {
-                return _register ?? InstantiateRegister;
+                return _register ? _register : InstantiateRegister;
             }
         }
 
@@ -33,8 +33,8 @@ namespace Forge.Anvil.Registry
                 _register = go.AddComponent<Register>();
 
 
-                _register.CreateRegistry(InternalData.Forge_REGISTRY);
-                _register.CreateRegistry(InternalData.Forge_COMPONENT_REGISTRY);
+                _register.CreateRegistry(InternalData.FORGE_REGISTRY);
+                _register.CreateRegistry(InternalData.FORGE_COMPONENT_REGISTRY);
 
                 return _register;
             }
@@ -59,6 +59,7 @@ namespace Forge.Anvil.Registry
         {
             if (!_registerList.ContainsKey(registryIdentifier))
             {
+                Debug.Log("Registry not found: " + registryIdentifier);
                 return null;
             }
 
@@ -99,7 +100,9 @@ namespace Forge.Anvil.Registry
                 return null;
             }
 
-            IRegistry registry = new Registry<object>();
+            GameObject registryGo = new GameObject(registryName);
+            registryGo.transform.parent = transform;
+            IRegistry registry = registryGo.AddComponent<Registry>();
 
             _registerList.Add(registryName, registry);
 
@@ -112,14 +115,16 @@ namespace Forge.Anvil.Registry
         /// <typeparam name="T">The registries type</typeparam>
         /// <param name="registryName">registryName</param>
         /// <returns>The created registry</returns>
-        public Registry<T> CreateRegistry<T>(string registryName)
+        public IRegistry CreateRegistry<T>(string registryName)
         {
             if (_registerList.ContainsKey(registryName))
             {
                 throw new ForgeCritical(Language.ForgeCriticalRegistryAlreadyExists);
             }
-
-            Registry<T> registry = new Registry<T>();
+            
+            GameObject registryGo = new GameObject(registryName);
+            registryGo.transform.parent = transform;
+            IRegistry registry = registryGo.AddComponent<Registry>();
 
             _registerList.Add(registryName, registry);
 

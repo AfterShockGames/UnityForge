@@ -1,6 +1,5 @@
 using System;
 using Forge.Anvil.Registry;
-using Forge.Pooling;
 using Forge.Settings;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -42,7 +41,7 @@ public static class MonobehaviourExtension
     {
         Register
             .GetRegister
-            .RegisterItem(InternalData.Forge_REGISTRY, itemIdentifier, item);
+            .RegisterItem(InternalData.FORGE_REGISTRY, itemIdentifier, item);
     }
 
     /// <summary>
@@ -89,7 +88,7 @@ public static class MonobehaviourExtension
     {
         return Register
             .GetRegister
-            .GetRegistry(InternalData.Forge_REGISTRY)
+            .GetRegistry(InternalData.FORGE_REGISTRY)
             .GetItem<T>(itemIdentifier);
     }
 
@@ -104,7 +103,7 @@ public static class MonobehaviourExtension
     {
         Register
             .GetRegister
-            .GetRegistry(InternalData.Forge_COMPONENT_REGISTRY)
+            .GetRegistry(InternalData.FORGE_COMPONENT_REGISTRY)
             .Register(componentIdentifier, typeof(T));
     }
 
@@ -132,44 +131,8 @@ public static class MonobehaviourExtension
     {
         return Register
             .GetRegister
-            .GetRegistry(InternalData.Forge_COMPONENT_REGISTRY)
+            .GetRegistry(InternalData.FORGE_COMPONENT_REGISTRY)
             .GetType(componentIdentifier);
-    }
-
-    /// <summary>
-    ///     Spawns a new GameObject via the pooling manager
-    /// </summary>
-    /// <param name="monoBehaviour"></param>
-    /// <param name="item">The item id to spawn</param>
-    /// <returns>A new instance of the item</returns>
-    public static GameObject Spawn(this MonoBehaviour monoBehaviour, string item)
-    {
-        return PoolingManager.Instance.Spawn(item);
-    }
-
-    /// <summary>
-    ///     Generic overload which returns the component after spawning an item
-    /// </summary>
-    /// <typeparam name="T">The component to get</typeparam>
-    /// <param name="monoBehaviour"></param>
-    /// <param name="item">The item to spawn</param>
-    /// <returns>
-    ///     The component of a new item instance.
-    /// </returns>
-    public static T Spawn<T>(this MonoBehaviour monoBehaviour, string item)
-    {
-        return PoolingManager.Instance.Spawn(item).GetComponent<T>();
-    }
-
-    /// <summary>
-    ///     Removes an item from the pool
-    /// </summary>
-    /// <param name="monoBehaviour"></param>
-    /// <param name="item">The poolId/itemId to despawn from</param>
-    /// <param name="gameObject">The item to despawn</param>
-    public static void Despawn(this MonoBehaviour monoBehaviour, string item, GameObject gameObject)
-    {
-        PoolingManager.Instance.Despawn(item, gameObject);
     }
 
     /// <summary>

@@ -47,6 +47,8 @@ namespace Forge.Config
             //Gets the specified folder starting from the MyDocuments folder.
             string directory = Path.Combine(InternalData.GamePath, configFolder);
 
+            Debug.Log("Reading config from dir: " + directory);
+
             //Create the games directory if it doesn't exist
             if (!Directory.Exists(directory))
             {

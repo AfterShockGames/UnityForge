@@ -16,23 +16,7 @@ namespace Forge.Errors
         internal static DirectoryInfo LogsDirectory {
             get
             {
-                if (_logsDirectory != null)
-                {
-                    return _logsDirectory;
-                }
-
-                string loggingPath = Path.Combine(Directory.GetCurrentDirectory(), ForgeSettings.LogDirectory);
-
-                if (!Directory.Exists(loggingPath))
-                {
-                    _logsDirectory = Directory.CreateDirectory(loggingPath);
-                }
-                else
-                {
-                    _logsDirectory = new DirectoryInfo(loggingPath);
-                }
-
-                return _logsDirectory;
+                return CreateLogsDir();
             }
         }
 
@@ -43,16 +27,8 @@ namespace Forge.Errors
         {
             get
             {
-                if(_infoLogFilePath != null)
-                {
-                    return _infoLogFilePath;
-                }
-
-                _infoLogFilePath = GetLogFilePath(ForgeExceptionType.Info);
-
-                if (!File.Exists(_infoLogFilePath))
-                {
-                    File.Create(_infoLogFilePath);
+                if (_infoLogFilePath == null) {
+                    _infoLogFilePath = GetLogFilePath();
                 }
 
                 return _infoLogFilePath;
@@ -115,7 +91,8 @@ namespace Forge.Errors
         /// <param name="ForgeException">The Forge exception to write</param>
         private static void WriteLogToFile(ForgeExceptionBase ForgeException)
         {
-            StreamWriter fileWriter = new StreamWriter(_infoLogFilePath);
+            CreateLogsDir();
+            StreamWriter fileWriter = new StreamWriter(InfoLogFilePath);
 
             fileWriter.WriteLine(ForgeException.Message);
 
@@ -148,15 +125,62 @@ namespace Forge.Errors
             }
 
             return Path.Combine(
-                Path.Combine(
-                    Path.Combine(
-                        Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), 
-                        InternalData.GAMES_DIR
-                    ), 
-                    ForgeSettings.LogDirectory
-                ), 
+                GetLogDirPath(),
                 logFileName
             );
+        }
+
+        /// <summary>
+        ///     Gets the log dir path.
+        /// </summary>
+        /// <returns>The log dir path.</returns>
+        private static string GetLogDirPath()
+        {
+
+            return Path.Combine(InternalData.GamePath, ForgeSettings.LogDirectory);
+        }
+
+        /// <summary>
+        ///     Creates the logs dir.
+        /// </summary>
+        /// <returns>The logs dir.</returns>
+        private static DirectoryInfo CreateLogsDir()
+        {
+            if (_logsDirectory != null)
+            {
+                return _logsDirectory;
+            }
+
+            string loggingPath = GetLogDirPath();
+
+            if (!Directory.Exists(loggingPath))
+            {
+                _logsDirectory = Directory.CreateDirectory(loggingPath);
+            }
+            else
+            {
+                _logsDirectory = new DirectoryInfo(loggingPath);
+            }
+
+            return _logsDirectory;
+        }
+
+        /// <summary>
+        /// Creates the log file.
+        /// </summary>
+        /// <returns>The log file.</returns>
+        /// <param name="exceptionType">Exception type.</param>
+        private static string CreateLogFile(ForgeExceptionType exceptionType)
+        {
+            string logFilePath = GetLogFilePath(exceptionType);
+
+
+            if (!File.Exists(logFilePath))
+            {
+                File.Create(logFilePath);
+            }
+
+            return logFilePath;
         }
     }
 }

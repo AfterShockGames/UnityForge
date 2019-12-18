@@ -37,6 +37,8 @@ namespace Forge.Settings
         public static string RegistryItemNotFound { get; set; }
         [ConfigItem("Item already registered, item id: ")]
         public static string RegistryItemRegistered { get; set; }
+        [ConfigItem("Item Is not a gameObject: ")]
+        public static string RegistryItemGameObject { get; set; }
         [ConfigItem("Tried to delete an item which is not inside the registry item id: ")]
         public static string RegistryDeleteItemNotFound { get; set; }
 

@@ -1,25 +1,39 @@
 using System;
 using System.Collections.Generic;
-using Forge.Pooling;
 using Forge.Errors;
 using Forge.Settings;
+using Forge.Utils;
 using UnityEngine;
 
 namespace Forge.Anvil.Registry
 {
-
-    /// <inheritdoc />
-    public class Registry<T> : IRegistry
+    
+    [Serializable] public class DictionaryOfStringAndObject : SerializableDictionary<string, object> {}
+    /// <inheritdoc cref="IRegistry" />
+    public class Registry : MonoBehaviour, IRegistry
     {
+
         /// <summary>
         ///     Dictionary containing all currently registered objects.
         /// </summary>
-        private readonly Dictionary<string, object> _register = new Dictionary<string, object>();
+        [SerializeField]
+        public DictionaryOfStringAndObject ItemRegister = new DictionaryOfStringAndObject();
 
         /// <inheritdoc />
         public T2 GetItem<T2>(string id)
         {
-            T2 item = PoolingManager.Instance.Spawn(id).GetComponent<T2>();
+            object objectItem = ItemRegister[id];
+
+            T2 item;
+            
+            if(objectItem as GameObject)
+            {
+                item = Instantiate(ItemRegister[id] as GameObject).GetComponent<T2>();   
+            }
+            else
+            {
+                item = ItemRegister[id] is T2 ? (T2) ItemRegister[id] : default;
+            }
 
             if (item == null)
             {
@@ -32,7 +46,7 @@ namespace Forge.Anvil.Registry
         /// <inheritdoc />
         public GameObject GetItem(string id)
         {
-            GameObject item = PoolingManager.Instance.Spawn(id);
+            GameObject item = Instantiate(ItemRegister[id] as GameObject).gameObject;
 
             if (item == null)
             {
@@ -45,32 +59,35 @@ namespace Forge.Anvil.Registry
         /// <inheritdoc />
         public Type GetType(string id)
         {
-            if (!_register.ContainsKey(id))
+            if (!ItemRegister.ContainsKey(id))
             {
                 Logging.Warning(Language.RegistryItemNotFound + id);
                 return null;
             }
 
-            return (Type)_register[id];
+            return ItemRegister[id] as Type;
         }
 
         /// <inheritdoc />
-        public bool Register(string id, object item, int amount = 5)
+        public bool Register(string id, object item, int amount = 0)
         {
-            if (_register.ContainsKey(id))
+            if (ItemRegister.ContainsKey(id))
             {
                 Logging.Warning(Language.RegistryItemRegistered + id);
                 return false;
             }
-
             //Check if object is a GameObject. If it is one create a Pool.
             GameObject newItem = item as GameObject;
             if (newItem != null)
             {
-                PoolingManager.Instance.CreateRepository(id, amount, newItem);
+                newItem.transform.parent = transform;
+                newItem.SetActive(false);
+                ItemRegister.Add(id, newItem);
             }
-
-            _register.Add(id, item);
+            else
+            {
+                ItemRegister.Add(id, item);
+            }
 
             return true;
         }
@@ -84,16 +101,14 @@ namespace Forge.Anvil.Registry
         /// <inheritdoc />
         public bool Delete(string id)
         {
-            if (!_register.ContainsKey(id))
+            if (!ItemRegister.ContainsKey(id))
             {
                 Logging.Warning(Language.RegistryDeleteItemNotFound + id);
 
                 return false;
             }
 
-            PoolingManager.Instance.RemoveRepository(id);
-
-            _register.Remove(id);
+            ItemRegister.Remove(id);
             return true;
         }
     }
