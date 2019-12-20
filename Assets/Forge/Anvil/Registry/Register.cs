@@ -14,13 +14,7 @@ namespace Forge.Anvil.Registry
         /// <summary>
         ///     Gets the current register
         /// </summary>
-        public static Register GetRegister
-        {
-            get
-            {
-                return _register ? _register : InstantiateRegister;
-            }
-        }
+        public static Register GetRegister => _register ? _register : InstantiateRegister;
 
         /// <summary>
         ///     Creates the register
@@ -73,7 +67,7 @@ namespace Forge.Anvil.Registry
         /// <param name="itemId">The item ID</param>
         /// <param name="item">The item</param>
         /// <param name="amount">The pool amount</param>
-        public void RegisterItem(string registryName, string itemId, object item, int amount = 5)
+        public void RegisterItem(string registryName, string itemId, GameObject item)
         {
             if (!_registerList.ContainsKey(registryName))
             {
@@ -84,7 +78,7 @@ namespace Forge.Anvil.Registry
 
             if (registerList != null)
             {
-                registerList.Register(itemId, item, amount);
+                registerList.Register(itemId, item);
             }
         }
 

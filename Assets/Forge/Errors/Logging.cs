@@ -49,7 +49,7 @@ namespace Forge.Errors
         /// </summary>
         /// <param name="logItem">The Forge Exception type</param>
         /// <param name="logLevel">The Forge log level</param>
-        public static void Log(ForgeExceptionBase logItem, int logLevel = 4)
+        private static void Log(ForgeExceptionBase logItem, int logLevel = 4)
         {
             if (ForgeSettings.LogLevel < logLevel)
             {

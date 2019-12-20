@@ -81,7 +81,7 @@ namespace Forge.Hammer.Events
 
             if (_target != null && _target != sender)
             {
-                return default(T);
+                return default;
             }
 
             return ForgeEvent(sender, args);

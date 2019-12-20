@@ -7,27 +7,15 @@ namespace Forge.Errors
     {
         public override string HelpLink { get; set; }
 
-        public override string GetMessage
-        {
-            get { return _message; }
-        }
+        protected override string GetMessage => _message;
 
         public override string Source { get; set; }
 
-        public override string StackTrace
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public override string StackTrace => throw new NotImplementedException();
 
-        public override MethodBase TargetSite
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public override MethodBase TargetSite { get; }
 
-        public override ForgeExceptionType ExceptionType
-        {
-            get { return ForgeExceptionType.Info; }
-        }
+        protected override ForgeExceptionType ExceptionType => ForgeExceptionType.Info;
 
         private readonly string _message;
 

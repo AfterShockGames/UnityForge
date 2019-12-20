@@ -17,20 +17,17 @@ namespace Forge.Errors
         ///     The thrown message.
         ///     Prefixed with a date
         /// </summary>
-        public new string Message
-        {
-            get { return MessagePre() + GetMessage; }
-        }
+        public new string Message => MessagePre() + GetMessage;
 
-        /// <summary>
-        ///     Gets the Forge error message, this should be implemented in the child classes.
-        /// </summary>
-        public abstract string GetMessage { get; }
         public new abstract string Source { get; set; }
         public new abstract string StackTrace { get; }
         public new abstract MethodBase TargetSite { get; }
 
-        public abstract ForgeExceptionType ExceptionType { get; }
+        protected abstract ForgeExceptionType ExceptionType { get; }
+        /// <summary>
+        ///     Gets the Forge error message, this should be implemented in the child classes.
+        /// </summary>
+        protected abstract string GetMessage { get; }
 
         /// <summary>
         ///     Adds a prefix to the log messages
@@ -40,7 +37,7 @@ namespace Forge.Errors
         /// </returns>
         private string MessagePre()
         {
-            return '[' + DateTime.Now.ToShortTimeString() + "][" + ExceptionType.GetType() + ']';
+            return '[' + DateTime.Now.ToShortTimeString() + "][" + nameof(ExceptionType) + ']';
         }
     }
 }

@@ -35,14 +35,10 @@ namespace Forge.Anvil.Registry
         ///     Registers an item with the specified Registry ID.
         ///     If amount is specified there will be an item pool created
         /// </summary>
-        /// <param name="id">Registry ID</param>
-        /// <param name="item">Item, This should inherit from MonoBehaviour</param>
-        /// <param name="amount">
-        ///     The amount of items the PoolingManager should create in advance.
-        ///     This is disabled by default
-        /// </param>
+        /// <param name="item">Registry ID</param>
+        /// <param name="gameObject">The object to register</param>
         /// <returns>Succes</returns>
-        bool Register(string id, object item, int amount = 0);
+        bool Register(string id, GameObject item);
 
         /// <summary>
         ///     Registers a type to the registry

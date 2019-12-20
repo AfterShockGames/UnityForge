@@ -104,7 +104,7 @@ public static class MonobehaviourExtension
         Register
             .GetRegister
             .GetRegistry(InternalData.FORGE_COMPONENT_REGISTRY)
-            .Register(componentIdentifier, typeof(T));
+            .RegisterType<T>(componentIdentifier);
     }
 
     /// <summary>

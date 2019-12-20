@@ -23,15 +23,22 @@ namespace Tests {
         }
 
         [UnityTest]
-        public IEnumerator ForgeCreateRegistryTest()
+        public IEnumerator ForgeRegistryTest()
         {
-            Register.GetRegister.CreateRegistry<MonoBehaviour>(TestSettings.TEST_REGISTRY);
+            Register.GetRegister.CreateRegistry<ITestObject>(TestSettings.TEST_REGISTRY);
             yield return null;
 
             IRegistry testRegistry = Register.GetRegister.GetRegistry(TestSettings.TEST_REGISTRY);
 
             Assert.NotNull(testRegistry);
+
+            testRegistry.RegisterType<TestObject>("TEST_OBJECT");
+
+            GameObject testObject = testRegistry.GetItem("TEST_OBJECT");
             
+            Assert.NotNull(testObject);
+            Assert.NotNull(testObject.GetComponent<TestObject>());
+
         }
     }
 }

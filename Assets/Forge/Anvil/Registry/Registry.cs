@@ -69,25 +69,17 @@ namespace Forge.Anvil.Registry
         }
 
         /// <inheritdoc />
-        public bool Register(string id, object item, int amount = 0)
+        public bool Register(string id, GameObject item)
         {
             if (ItemRegister.ContainsKey(id))
             {
                 Logging.Warning(Language.RegistryItemRegistered + id);
                 return false;
             }
-            //Check if object is a GameObject. If it is one create a Pool.
-            GameObject newItem = item as GameObject;
-            if (newItem != null)
-            {
-                newItem.transform.parent = transform;
-                newItem.SetActive(false);
-                ItemRegister.Add(id, newItem);
-            }
-            else
-            {
-                ItemRegister.Add(id, item);
-            }
+            
+            item.transform.parent = transform;
+            item.SetActive(false);
+            ItemRegister.Add(id, item);
 
             return true;
         }
@@ -95,7 +87,15 @@ namespace Forge.Anvil.Registry
         /// <inheritdoc />
         public bool RegisterType<T1>(string id)
         {
-            return Register(id, typeof(T1));
+            if (ItemRegister.ContainsKey(id))
+            {
+                Logging.Warning(Language.RegistryItemRegistered + id);
+                return false;
+            }
+            
+            ItemRegister.Add(id, typeof(T1));
+
+            return true;
         }
 
         /// <inheritdoc />
